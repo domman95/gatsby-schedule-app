@@ -13,40 +13,34 @@ const NavStyles = styled.nav`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80px;
+    width: 60px;
     height: 100vh;
     background: var(--blue);
     padding: 20px 10px;
 
     .logo {
         width: 100%;
-
     }
 
     .links {
         flex: 1;
-        width: 32px;
-        height: 32px;
+        width: 26px;
+        height: 26px;
         text-align: center;
         padding: 20px 0;
         
         li {
             margin: 20px 0;
             list-style-type: none;
-
         }
-
     }
 
     .logout {
         border: none;
-        width: 32px;
-        height: 32px;
+        width: 26px;
+        height: 26px;
         background: transparent;    
-        
     }
-
-
 `
 
 export default function Nav() {

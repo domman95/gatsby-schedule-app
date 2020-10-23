@@ -13,8 +13,9 @@ const CalendarDate = styled.div`
     
         h2 {
             text-align: center;
-            padding: 0 20px;
+            padding: 0 5px;
             font-size: clamp(16px, 20px, 24px);
+            white-space: nowrap;
         }
 
         button {
@@ -53,16 +54,16 @@ export default function Calendar() {
         <>
             <Heading>Kalendarz</Heading>
             <Panel>
-                <FormStyles onChange={(e) => console.log(e.target.value)}>
+                <FormStyles className="calendarForm" onChange={(e) => console.log(e.target.value)}>
                     <Radio checked>Dzień</Radio>
                     <Radio>Tydzień</Radio>
                 </FormStyles>
-                <CalendarDate>
+                <CalendarDate className="calendarDate">
                     <button>&#x21E0;</button>
                     <h2>19 października 2020</h2>
                     <button>&#x21E2;</button>
                 </CalendarDate>
-                <Select template="Pracownicy">
+                <Select className="calendarWorkers" template="Pracownicy">
                     {[{name: 'Wszyscy'}, {name: 'Pracownik 1'}, {name: 'Pracownik 2'}, {name: 'Pracownik 3'}]}
                 </Select>
             </Panel>

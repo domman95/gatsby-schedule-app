@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const Label = styled.label`
     position: relative;
-    width: 100px;
     height: 30px;
     cursor: pointer;
 
@@ -22,6 +21,7 @@ const Label = styled.label`
         height: 100%;
         border: 1px solid var(--grey);
         font-weight: var(--bold);
+        padding: 5px 10px;
 
     }
 

@@ -4,7 +4,16 @@ import styled from 'styled-components';
 
 
 const Label = styled.label`
-    margin-left: 10px;
+
+    span {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+           span {
+               display: inline;
+           }
+    }
 `
 
 const SelectStyles = styled.select`
@@ -12,10 +21,10 @@ const SelectStyles = styled.select`
     border: ${({secondary}) => secondary ? '1px solid var(--blue)' : 'none'};
     border-radius: 6px;
     background: ${({secondary}) => secondary ? 'var(--white)' : 'var(--blue)'};
-    font-size: 16px;
+    font-size: 14px;
     font-weight: var(--bold);
     color: ${({secondary}) => secondary ? 'var(--blue)' : 'var(--white)'};
-    padding: 0 15px;    
+    /* padding: 0 10px;     */
 
     &:hover {
         background: var(--hoverBlue);

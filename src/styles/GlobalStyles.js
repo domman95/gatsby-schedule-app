@@ -36,17 +36,19 @@ const GlobalStyles = createGlobalStyle`
     
     /* width */
     ::-webkit-scrollbar {
-        width: 10px;
+        width: 6px;
     }
 
     /* Track */
     ::-webkit-scrollbar-track {
         background: white; 
+        border-radius: 5px;
     }
     
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: var(--blue); 
+        border-radius: 5px;
     }
 
     /* Handle on hover */

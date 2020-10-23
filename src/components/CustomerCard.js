@@ -9,7 +9,7 @@ const CustomerCardStyles = styled.article`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 360px;
     border-radius: 6px;
     background: var(--white);
@@ -43,8 +43,8 @@ const CustomerCardStyles = styled.article`
         align-items: center;
         border-radius: 50%;
         border: 1px solid var(--blue);
-        width: 160px;
-        height: 160px;
+        width: clamp(100px, 130px, 160px);
+        height: clamp(100px, 130px, 160px);
         padding: 7px;
 
         &::before {
@@ -68,8 +68,8 @@ const CustomerCardStyles = styled.article`
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 35px;
-            height: 35px;
+            width: clamp(25px, 30px, 35px);
+            height: clamp(25px, 30px, 35px);
             border-radius: 50%;
             background: url(${star}) no-repeat center white;
             border: 1px solid var(--grey);
@@ -79,8 +79,8 @@ const CustomerCardStyles = styled.article`
             position: absolute;
             top: 10px;
             right: -10px;
-            width: 50px;
-            height: 25px;
+            width: clamp(30px, 40px, 50px);
+            height: clamp(15px, 20px, 25px);
             border-radius: 8px;
             background: url(${conversation}) no-repeat center white;
             border: 1px solid var(--grey);
@@ -132,7 +132,7 @@ export default function CustomerCard() {
             </div>
             <div className="wrapperButtons">
                 <Button>umów wizytę</Button>
-                <Button secondary card>więcej</Button>
+                <Button secondary>więcej</Button>
             </div>
         </CustomerCardStyles>
     )

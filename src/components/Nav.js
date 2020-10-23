@@ -8,8 +8,12 @@ import calendar from '../assets/icons/calendar.svg';
 import customercards from '../assets/icons/customercards.svg';
 import settings from '../assets/icons/settings.svg';
 import logout from '../assets/icons/logout.svg';
+import MainContext from '../context/MainContext';
 
 const NavStyles = styled.nav`
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +21,9 @@ const NavStyles = styled.nav`
     height: 100vh;
     background: var(--blue);
     padding: 20px 10px;
+    z-index: 9999;
+    transform: ${({open}) => open ? 'translateX(0)' : 'translateX(-100%)'};
+    transition: transform .3s linear;
 
     .logo {
         width: 100%;
@@ -43,9 +50,28 @@ const NavStyles = styled.nav`
     }
 `
 
+const DisplayNavButton = styled.button`
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    transform: translateX(100%);
+    border: none;
+    background: var(--blue);
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    padding: 5px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    transition: .3s linear;
+`
+
 export default function Nav() {
+    
     return (
-        <NavStyles>
+        <MainContext.Consumer>
+            {({open, toggleMenu}) => (
+                <NavStyles open={open}>
             <div className="logo">
                 <Link to="/">
                     <img src={logo} alt="Logo salonu fryzur IVA"/>
@@ -76,6 +102,11 @@ export default function Nav() {
             <button className="logout">
                 <img src={logout} alt="logout"/>
             </button>
+            <DisplayNavButton onClick={toggleMenu}>
+                {open ? (<>&#129120;</>) : (<>&#129122;</>)}                    
+            </DisplayNavButton>
         </NavStyles>
+            )}
+        </MainContext.Consumer>
     )
 }

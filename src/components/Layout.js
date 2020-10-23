@@ -1,14 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import MainContext from '../context/MainContext';
 import GlobalStyles from '../styles/GlobalStyles';
 import Nav from './Nav';
 
+
 const LayoutStyles = styled.div`
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     max-height: 100vh;
+    padding-left: ${({open}) => open ? '60px' : '0'};
     background: #E1E1E1;
-    overflow: hidden;
+    height: 100vh;
+    overflow-y: hidden;
+    transition: .3s linear;
 `
 
 const ContainerStyles = styled.div`
@@ -16,15 +21,20 @@ const ContainerStyles = styled.div`
 `
 
 export default function Layout({ children }) {
+
     return (
-        <>
-            <GlobalStyles />
-            <LayoutStyles>
-                <Nav />
-                <ContainerStyles>
-                    {children}
-                </ContainerStyles>
-            </LayoutStyles>
-        </>
+        <MainContext.Consumer>
+            {({ open }) => (
+              <>
+                <GlobalStyles />
+                <LayoutStyles open={open}>
+                    <Nav/>
+                    <ContainerStyles>
+                        {children}
+                    </ContainerStyles>
+                </LayoutStyles>
+              </>  
+            )}
+        </MainContext.Consumer>
     )
 }

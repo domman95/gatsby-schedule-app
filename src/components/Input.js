@@ -5,7 +5,7 @@ import search from '../assets/icons/search.svg';
 const Label = styled.label`
     display: grid;
     grid-template-columns: auto 1fr auto;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     border: 1px solid var(--grey);
     border-radius: 6px;
 
@@ -27,6 +27,11 @@ const Label = styled.label`
 
         &::placeholder {
             font-weight: var(--light);
+            font-size: 10px;
+
+            @media (min-width: 768px) {
+                font-size: 16px;
+            }
         }
     }
 
@@ -38,6 +43,8 @@ const Label = styled.label`
         display: flex;
         justify-content: center;
         align-items: center;
+        color: var(--blue);
+        font-weight: var(--bold);
         font-size: 16px;
         cursor: pointer;
         transition: transform .3s;
@@ -50,7 +57,7 @@ const Label = styled.label`
 
 export default function Input() {
     return (
-        <Label>
+        <Label className="customersInput">
             <div className="searchIcon">
                 <img src={search} alt=""/>
             </div>

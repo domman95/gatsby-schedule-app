@@ -6,8 +6,7 @@ import Nav from './Nav';
 
 
 const LayoutStyles = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     max-height: 100vh;
     padding-left: ${({open}) => open ? '60px' : '0'};
     background: #E1E1E1;
@@ -17,7 +16,9 @@ const LayoutStyles = styled.div`
 `
 
 const ContainerStyles = styled.div`
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 `
 
 export default function Layout({ children }) {
@@ -27,8 +28,8 @@ export default function Layout({ children }) {
             {({ open }) => (
               <>
                 <GlobalStyles />
-                <LayoutStyles open={open}>
-                    <Nav/>
+                    <LayoutStyles open={open}>
+                        <Nav />
                     <ContainerStyles>
                         {children}
                     </ContainerStyles>

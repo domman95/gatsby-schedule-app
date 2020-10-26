@@ -5,7 +5,6 @@ import search from '../assets/icons/search.svg';
 const Label = styled.label`
     display: grid;
     grid-template-columns: auto 1fr auto;
-    /* margin-left: 10px; */
     border: 1px solid var(--grey);
     border-radius: 6px;
 

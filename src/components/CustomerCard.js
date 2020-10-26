@@ -117,7 +117,8 @@ const Line = styled.div`
     margin: 5px 0;
 `
 
-export default function CustomerCard() {
+export default function CustomerCard({ toggleModal, customer }) {
+    const { firstName, lastName, phoneNumber } = customer;
     return (
         <CustomerCardStyles>
             <div className="image">
@@ -126,12 +127,12 @@ export default function CustomerCard() {
                 <img src={woman} alt=""/>
             </div>
             <div className="information">
-                <h4>Joanna Kowalska</h4>
+                <h4>{firstName} {lastName}</h4>
                 <Line />
-                <p className="phone">+48 123 123 123</p>
+                <p className="phone">{phoneNumber}</p>
             </div>
             <div className="wrapperButtons">
-                <Button>umów wizytę</Button>
+                <Button onClick={toggleModal}>umów wizytę</Button>
                 <Button secondary>więcej</Button>
             </div>
         </CustomerCardStyles>

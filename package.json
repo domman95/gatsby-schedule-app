@@ -5,22 +5,28 @@
   "version": "0.1.0",
   "license": "0BSD",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
+    "build": "env-cmd -f .env gatsby build",
+    "develop": "env-cmd -f .env gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "dependencies": {
-    "gatsby": "^2.24.79",
+    "dotenv": "^8.2.0",
+    "firebase": "^7.24.0",
+    "gatsby": "^2.24.85",
+    "gatsby-plugin-styled-components": "^3.3.14",
     "moment": "^2.29.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-spring": "^8.0.27",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
+    "gh-pages": "^3.1.0",
     "prettier": "2.1.2"
   },
   "repository": {

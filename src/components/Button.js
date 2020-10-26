@@ -29,9 +29,9 @@ const ButtonStyles = styled.button`
 
 `
 
-export default function Button({children, secondary}) {
+export default function Button({children, secondary, onClick}) {
     return (
-        <ButtonStyles secondary={secondary}>
+        <ButtonStyles secondary={secondary} onClick={onClick}>
             {children}
         </ButtonStyles>
     )

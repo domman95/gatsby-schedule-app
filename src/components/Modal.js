@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSpring, animated } from 'react-spring';
 import Button from './Button';
 
 const Background = styled.div`
@@ -12,6 +13,7 @@ const Background = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999999;
 `
 
 
@@ -68,29 +70,43 @@ const AddModalStyles = styled.div`
 
 `
 
-const Modal = ({ children }) => (
-    <Background>
-        <ModalStyles>
-            <Close>&#10006;</Close>
-            {children}
-        </ModalStyles>
-    </Background>
-)
+const Modal = ({ children }) => {
 
-export const DeleteModal = ({children}) => (
-    <Modal>
-        <DeleteModalStyles>
-            <div className="question">
-                <p>Czy na pewno chcesz usunąć pracownika </p>
-                <p>Dominik Lasek?</p>
-            </div>
-            <div className="buttonsWrapper">
-                <Button>tak</Button>
-                <Button secondary>nie</Button>
-            </div>
-        </DeleteModalStyles>
-    </Modal>
-)
+    return (
+        <Background>
+                <ModalStyles>
+                    <Close>&#10006;</Close>
+                    {children}
+                </ModalStyles>
+        </Background>
+    )
+}
+
+export const DeleteModal = ({ children, showModal }) => {
+
+    const animation = useSpring({
+        config: {
+            duration: 250,
+        },
+        opacity: showModal ? 1 : 0,
+        transform: showModal ? 'translateY(0%)' : 'translateY(-100%)'
+    })
+
+    return (
+        <Modal style={animation}>
+            <DeleteModalStyles>
+                <div className="question">
+                    <p>Czy na pewno chcesz usunąć pracownika </p>
+                    <p>Dominik Lasek?</p>
+                </div>
+                <div className="buttonsWrapper">
+                    <Button>tak</Button>
+                    <Button secondary>nie</Button>
+                </div>
+                </DeleteModalStyles>
+        </Modal>
+    )
+}
 
 export const AddModal = ({ children}) => (
     <Modal>

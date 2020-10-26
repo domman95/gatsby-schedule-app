@@ -25,6 +25,12 @@ const GlobalStyles = createGlobalStyle`
         --bold: 600;
     }   
 
+    html {
+        /* overflow-y: hidden; */
+        height: 100%;
+        background: var(--grey);
+    }
+
     button {
         cursor: pointer;
         outline: none;
@@ -56,6 +62,14 @@ const GlobalStyles = createGlobalStyle`
         background: var(--hoverBlue); 
     }
 
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        border-bottom: 1px solid var(--grey);
+        border-right: 1px solid var(--grey);
+    }
 
 `
 

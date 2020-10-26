@@ -18,7 +18,7 @@ const NavStyles = styled.nav`
     flex-direction: column;
     align-items: center;
     width: 60px;
-    height: 100vh;
+    height: 100%;
     background: var(--blue);
     padding: 20px 10px;
     z-index: 9999;
@@ -64,6 +64,11 @@ const DisplayNavButton = styled.button`
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
     transition: .3s linear;
+    opacity: .5;
+
+    &:hover {
+        opacity: 1;
+    }
 `
 
 export default function Nav() {

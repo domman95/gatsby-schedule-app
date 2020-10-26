@@ -5,7 +5,6 @@ const PanelStyles = styled.div`
     display: grid;
     grid-template-columns: repeat(2, auto);
     grid-template-rows: repeat(2, auto);
-    align-items: center;
     background: var(--white);
     border-radius: 6px;
     gap: 10px;
@@ -15,6 +14,7 @@ const PanelStyles = styled.div`
     @media (min-width: 768px) {
         grid-template-columns: auto 1fr auto;
         grid-template-rows: auto;
+        align-items: center;
     }
 
     @media (max-width: 768px) {

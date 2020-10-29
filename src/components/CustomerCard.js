@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from './Button';
 import star from '../assets/icons/star.svg';
 import conversation from '../assets/icons/conversation.svg';
 import woman from '../assets/woman.png';
+import man from '../assets/man.png';
+import Modal from './Modal';
+import AddVisit from './AddVisit';
 
 const CustomerCardStyles = styled.article`
     display: flex;
@@ -117,14 +121,21 @@ const Line = styled.div`
     margin: 5px 0;
 `
 
-export default function CustomerCard({ toggleModal, customer }) {
-    const { firstName, lastName, phoneNumber } = customer;
+export default function CustomerCard({ customer: { firstName, lastName, phoneNumber, sex } }) {
+
+    const [isModal, setIsModal] = useState(false)
+
+    // const { firstName, lastName, phoneNumber, sex } = customer;
+
+    const toggleModal = () => setIsModal(!isModal);
+
     return (
         <CustomerCardStyles>
             <div className="image">
                 <div className="star" />
                 <div className="conversation" />
-                <img src={woman} alt=""/>
+                {sex === 'male' && <img src={man} alt="mężczyzna" />}
+                {sex === 'female' && <img src={woman} alt="kobieta" />}
             </div>
             <div className="information">
                 <h4>{firstName} {lastName}</h4>
@@ -135,6 +146,11 @@ export default function CustomerCard({ toggleModal, customer }) {
                 <Button onClick={toggleModal}>umów wizytę</Button>
                 <Button secondary>więcej</Button>
             </div>
+            {isModal && <Modal close={toggleModal}><AddVisit close={setIsModal}/></Modal>}
         </CustomerCardStyles>
     )
+}
+
+CustomerCard.defaultProps = {
+    sex: 'female'
 }

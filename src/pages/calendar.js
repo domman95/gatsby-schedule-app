@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Heading from '../components/Heading';
 import Panel from '../components/Panel';
 import Radio from '../components/Radio';
 import Select from '../components/Select';
-import { workers, hours } from '../context/data';
 import MainContext from '../context/MainContext';
+import CalendarContainer from '../templates/Calendar/CalendarContainer';
+import HoursColumn from '../templates/Calendar/HoursColumn';
+import WorkersColumns from '../templates/Calendar/WorkersColumn';
 
 
 const CalendarDate = styled.div`
@@ -51,55 +53,25 @@ const FormStyles = styled.form`
     }
 `
 
-const MainStyles = styled.main`
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    justify-content: center;
-    background: var(--white);
-    border-radius: 6px;
-    margin: 0 10px 20px;
-    overflow-y: scroll;
-    flex: 1;
-`
-
-const HoursStyles = styled.div`
-
-    .hour {
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        border-bottom: 1px solid var(--grey);
-        border-right: 1px solid var(--grey);
-    }
-
-`
-
-const WorkersStyles = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    .field {
-        border-bottom: 1px solid var(--grey);
-        border-right: 1px solid var(--grey);
-        height: 50px;
-    }
-`
-
-const WorkerColor = styled.div`
-    width: 20px;
-    height: 20px;
-    background: ${({ color: { r, g, b } }) => `rgb(${r}, ${g}, ${b})`};
-    margin-right: 5px;
-    border-radius: 6px;
-`
 
 export default function Calendar() {
 
-    const context = React.useContext(MainContext)
+    const [value, setValue] = useState();
+    
+    const context = React.useContext(MainContext);
+    const { date } = context;
 
-    const { hours } = context;
+    useEffect(() => {
+        setValue(date.clone());
+    }, [])
+
+    const nextDay = () => {
+        setValue(value.clone().add(1, 'day'));
+    }
+
+    const prevDay = () => {
+        setValue(value.clone().subtract(1, 'day'));
+    }
 
     return (
         <>
@@ -110,41 +82,18 @@ export default function Calendar() {
                     <Radio>Tydzień</Radio>
                 </FormStyles>
                 <CalendarDate className="calendarDate">
-                    <button>&#x21E0;</button>
-                    <h2>19 października 2020</h2>
-                    <button>&#x21E2;</button>
+                    <button onClick={prevDay}>&#x21E0;</button>
+                    <h2>{value && value.format('DD MMMM YYYY')}</h2>
+                    <button onClick={nextDay}>&#x21E2;</button>
                 </CalendarDate>
                 <Select className="calendarWorkers" template="Pracownicy">
                     {[{name: 'Wszyscy'}, {name: 'Pracownik 1'}, {name: 'Pracownik 2'}, {name: 'Pracownik 3'}]}
                 </Select>
             </Panel>
-            <MainStyles>
-                <HoursStyles>
-                    <div className="header">
-                        <p>Godz</p>
-                    </div>
-                    {hours.map(({ start }) => (
-                        <div className="hour" key={start}>
-                            <p className="start">{start}</p>
-                        </div>
-                    ))}
-                </HoursStyles>
-                <WorkersStyles>
-                    {workers.map(({ id, name, color }) => {
-                        return (
-                            <div className="column" key={id} color={color}>
-                                <div className="header">
-                                    <WorkerColor color={color} />
-                                    <p>{name}</p>
-                                </div>
-                                    {hours.map(({ start, end }) => (
-                                    <div className="field" key={start}></div>
-                                ))}    
-                            </div>
-                        )
-                    })}
-                </WorkersStyles>
-            </MainStyles>
+            <CalendarContainer>
+                <HoursColumn />
+                <WorkersColumns date={value}/>
+            </CalendarContainer>
         </>
     )
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
-
 import logo from '../assets/logo.svg';
 import dashboard from '../assets/icons/dashboard.png';
 import calendar from '../assets/icons/calendar.svg';

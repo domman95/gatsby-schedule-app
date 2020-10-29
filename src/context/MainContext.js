@@ -1,28 +1,42 @@
 import React, {useState, useEffect} from 'react'
-import Firebase from '../services/firebase';
 import { hours, workers } from './data';
+import { getCustomers, getVisits } from '../services/firebase';
+import moment from 'moment';
 
 const MainContext = React.createContext(null);
 
-async function getCustomers() {
-    const snapshot = await Firebase().collection('customers').get()
-    const data = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-    return data;
-}
-
-
 const MainProvider = ({ children }) => {
-
     const [isOpen, setIsOpen] = useState(true);
     const [customers, setCustomers] = useState([]);
-
+    const [visits, setVisits] = useState([]);
+    
     useEffect(() => {
-        getCustomers().then(res => setCustomers(...customers, res));
+        const allVisits = [];
+        getCustomers().then(res => {
+            // get all customers and push it to state customers
+            setCustomers(res)
+            res.forEach(customer => {
+                // check if customers has any visits and push it to state visits
+                getVisits(customer.id).then(response => {
+                    if (response.length > 0) {
+                        response.forEach(item => {
+                            allVisits.push({
+                                ...item,
+                                ...customer,
+                                id: item.id
+                            })
+                        })
+                        Promise.all(allVisits).then(val => setVisits(val))
+                    }
+                })
+            })
+        })
     }, [])
 
     const toggleMenu = () => {
-        setIsOpen(!isOpen)
+        setIsOpen(!isOpen);
     }
+
 
     return (   
         <MainContext.Provider
@@ -31,7 +45,9 @@ const MainProvider = ({ children }) => {
                 toggleMenu,
                 customers,
                 hours,
-                workers
+                workers,
+                visits,
+                date: moment()
             }}
         >
             {children}

@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import Heading from '../components/Heading';
 import Panel from '../components/Panel';
 import Button from '../components/Button';
-import Input from '../components/Input';
+import Search from '../components/Search';
 import CustomerCard from '../components/CustomerCard';
 import viewLn from '../assets/icons/viewLn.svg'
 import viewSq from '../assets/icons/viewSq.svg'
-import { DeleteModal } from '../components/Modal';
 import MainContext from '../context/MainContext';
+import Modal from '../components/Modal';
+import AddCustomer from '../components/AddCustomer';
+import { findCustomer } from '../utils/findCustomer';
 
 const CustomersPageStyles = styled.div`
     display: flex;
@@ -55,31 +57,43 @@ const MainStyles = styled.main`
 
 export default function CustomersPage() {
 
-    const [showModal, setShowModal] = useState(false);
-
+    const [isModal, setIsModal] = useState(false);
+    const [allCustomers, setAllCustomers] = useState([]);
+    const [filteredCustomers, setFilteredCustomers] = useState([]);
+    
     const context = React.useContext(MainContext);
-    const { customers } = context;
 
-    const toggleModal = () => setShowModal(!showModal)
+    useEffect(() => {
+        const { customers } = context;
 
+        setAllCustomers(customers)
+    }, [context])
+
+
+    const toggleModal = () => setIsModal(!isModal)
 
     return (
             <CustomersPageStyles>
             <Heading>Karty klientów</Heading>
             <Panel>
-                <Button className="customersButton">
+                <Button className="customersButton" onClick={toggleModal}>
                     Dodaj klienta
                 </Button>
-                <Input />
+                <Search findCustomer={findCustomer} setFilteredCustomers={setFilteredCustomers} customers={allCustomers} />
                 <ViewOptions className="customersViewOptions">
                     <button className="linear" aria-label="linear view"/>
                     <button className="tiled" aria-label="tiled view"/>
                 </ViewOptions>
             </Panel>
             <MainStyles>
-                {customers && customers.map(customer => <CustomerCard key={customer.id} customer={customer} />)}
+                {(filteredCustomers.length !== 0 && filteredCustomers.length < allCustomers.length) ? (
+                    filteredCustomers.map(customer => <CustomerCard key={customer.id} customer={customer} />)
+                )   :  (
+                    allCustomers && allCustomers.map(customer => <CustomerCard key={customer.id} customer={customer} />)
+                )}
+
             </MainStyles>
-            {showModal && <DeleteModal showModal={showModal} />}
+            {isModal && <Modal close={toggleModal}><AddCustomer close={setIsModal}/></Modal>}
             </CustomersPageStyles>
     )
 }

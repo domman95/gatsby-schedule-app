@@ -54,13 +54,13 @@ const Label = styled.label`
     }
 `
 
-export default function Input() {
+export default function Search({findCustomer, setFilteredCustomers, customers}) {
     return (
         <Label className="customersInput">
             <div className="searchIcon">
                 <img src={search} alt=""/>
             </div>
-            <input className="text" type="text" placeholder="wpisz nazwisko klienta, którego szukasz...."/>
+            <input className="text" onChange={(e) => findCustomer(e, setFilteredCustomers, customers)} type="text" placeholder="wpisz nazwisko klienta, którego szukasz...."/>
             <input className="submit" type="submit" value='&#129122;' />
         </Label>        
     )

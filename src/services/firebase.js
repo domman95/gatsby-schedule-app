@@ -13,13 +13,16 @@ const firebaseConfig = {
     appId: process.env.GATSBY_APP_ID
   };
 
-const Firebase = () => {
-    app.initializeApp(firebaseConfig)
+app.initializeApp(firebaseConfig);
 
-    const db = app.firestore();
+export const db = app.firestore();
 
-    return db;
+export async function getCustomers() {
+  const snapshot = await db.collection('customers').get()
+  return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
 }
-  
-export default Firebase
 
+export async function getVisits(id) {
+  const snapshot = await db.collection('customers').doc(id).collection('visits').get()
+  return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+}

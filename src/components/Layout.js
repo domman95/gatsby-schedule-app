@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MainContext from '../context/MainContext';
 import GlobalStyles from '../styles/GlobalStyles';
+import Modal from './Modal';
 import Nav from './Nav';
 
 
@@ -28,11 +29,11 @@ export default function Layout({ children }) {
             {({ open }) => (
               <>
                 <GlobalStyles />
-                    <LayoutStyles open={open}>
-                        <Nav />
-                    <ContainerStyles>
-                        {children}
-                    </ContainerStyles>
+                <LayoutStyles open={open}>
+                    <Nav />
+                <ContainerStyles>
+                    {children}
+                </ContainerStyles>
                 </LayoutStyles>
               </>  
             )}

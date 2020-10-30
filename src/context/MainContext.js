@@ -17,13 +17,12 @@ const MainProvider = ({ children }) => {
             setCustomers(res)
             res.forEach(customer => {
                 // check if customers has any visits and push it to state visits
-                getVisits(customer.id).then(response => {
+                getVisits(customer.customerId).then(response => {
                     if (response.length > 0) {
                         response.forEach(item => {
                             allVisits.push({
                                 ...item,
                                 ...customer,
-                                id: item.id
                             })
                         })
                         Promise.all(allVisits).then(val => setVisits(val))

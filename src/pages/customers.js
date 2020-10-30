@@ -87,13 +87,13 @@ export default function CustomersPage() {
             </Panel>
             <MainStyles>
                 {(filteredCustomers.length !== 0 && filteredCustomers.length < allCustomers.length) ? (
-                    filteredCustomers.map(customer => <CustomerCard key={customer.id} customer={customer} />)
+                    filteredCustomers.map(customer => <CustomerCard key={customer.customerId} customer={customer} />)
                 )   :  (
-                    allCustomers && allCustomers.map(customer => <CustomerCard key={customer.id} customer={customer} />)
+                    allCustomers && allCustomers.map(customer => <CustomerCard key={customer.customerId} customer={customer} />)
                 )}
 
             </MainStyles>
-            {isModal && <Modal close={toggleModal}><AddCustomer close={setIsModal}/></Modal>}
+            <Modal open={isModal} close={toggleModal}><AddCustomer close={setIsModal}/></Modal>
             </CustomersPageStyles>
     )
 }

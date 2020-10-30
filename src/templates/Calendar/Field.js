@@ -8,7 +8,7 @@ import AddVisit from '../../components/AddVisit';
 const FieldStyles = styled.div`
     border-bottom: 1px solid var(--grey);
     border-right: 1px solid var(--grey);
-    height: 50px;
+    height: var(--calendarVisitHeight);
     cursor: pointer;
 `
 
@@ -50,7 +50,7 @@ export default function Field({timeStart, timeEnd, workerName, color, date}) {
                 if (visit.worker === workerName && timeStart === visit.start && visit.date === date.format('YYYY-MM-DD')) {
                     return (
                         <Visit
-                        key={visit.id}
+                        key={visit.visitId}
                         visit={visit}
                         top={offTop}
                         color={color}
@@ -59,7 +59,7 @@ export default function Field({timeStart, timeEnd, workerName, color, date}) {
                 }
                 })}
         </FieldStyles>
-            {isModal && <Modal close={toggleModal}><AddVisit workerName={workerName} dateVisit={date} timeStart={timeStart} timeEnd={timeEnd} close={setIsModal}/></Modal>}
+            <Modal open={isModal} close={toggleModal}><AddVisit workerName={workerName} dateVisit={date} timeStart={timeStart} timeEnd={timeEnd} close={setIsModal}/></Modal>
         </>
     )
 }

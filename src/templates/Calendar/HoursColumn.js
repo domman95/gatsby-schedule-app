@@ -5,7 +5,7 @@ import { hours } from '../../context/data';
 const HoursStyle = styled.div`
 
     .hour {
-        height: 50px;
+        height: var(--calendarVisitHeight);
         display: flex;
         justify-content: center;
         align-items: center;

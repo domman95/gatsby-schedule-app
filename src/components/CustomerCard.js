@@ -121,11 +121,9 @@ const Line = styled.div`
     margin: 5px 0;
 `
 
-export default function CustomerCard({ customer: { firstName, lastName, phoneNumber, sex } }) {
+export default function CustomerCard({ customer: { customerId, firstName, lastName, phoneNumber, sex } }) {
 
     const [isModal, setIsModal] = useState(false)
-
-    // const { firstName, lastName, phoneNumber, sex } = customer;
 
     const toggleModal = () => setIsModal(!isModal);
 
@@ -146,7 +144,7 @@ export default function CustomerCard({ customer: { firstName, lastName, phoneNum
                 <Button onClick={toggleModal}>umów wizytę</Button>
                 <Button secondary>więcej</Button>
             </div>
-            {isModal && <Modal close={toggleModal}><AddVisit close={setIsModal}/></Modal>}
+            <Modal open={isModal} close={toggleModal}><AddVisit close={setIsModal} customerId={customerId}/></Modal>
         </CustomerCardStyles>
     )
 }

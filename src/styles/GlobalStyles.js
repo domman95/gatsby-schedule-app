@@ -23,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
         --regular: 400;
         --medium: 500;
         --bold: 600;
+        --calendarVisitHeight: 50px;
     }   
 
     html {

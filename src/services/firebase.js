@@ -19,10 +19,10 @@ export const db = app.firestore();
 
 export async function getCustomers() {
   const snapshot = await db.collection('customers').get()
-  return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+  return snapshot.docs.map(doc => ({customerId: doc.id, ...doc.data()}));
 }
 
 export async function getVisits(id) {
   const snapshot = await db.collection('customers').doc(id).collection('visits').get()
-  return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+  return snapshot.docs.map(doc => ({visitId: doc.id, ...doc.data()}));
 }

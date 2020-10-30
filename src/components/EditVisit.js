@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { hours, workers } from '../context/data';
@@ -74,33 +74,23 @@ const Label = styled.label`
 
 `
 
-export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, customerId, close }) {
+export default function EditVisit({ workerName, dateVisit, timeStart, timeEnd, visitServices, customerId, visitId, close }) {
     
     const [newVisit, setNewVisit] = useState({
         worker: workerName,
         date: dateVisit.format('YYYY-MM-DD'),
         start: timeStart,
         end: timeEnd,
-        services: 'strzyżenie',
+        services: visitServices,
     })
 
     const [visitCustomer, setVisitCustomer] = useState(customerId);
-    const [filtered, setFiltered] = useState();
         
     const { worker, date, start, end, services } = newVisit;
     
     const context = React.useContext(MainContext);
     const { customers, visits } = context;
     
-    useEffect(() => {
-        const x = hours.filter(hour => hour.end > start && hour)
-        setFiltered(x);
-        setNewVisit({
-            ...newVisit,
-            end: x[0].end
-        })
-    }, start)
-
     const handleChange = (e) => {
         if (e.target.name === 'customer') return;
         setNewVisit({
@@ -108,35 +98,20 @@ export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, cu
             [e.target.name]: e.target.value
         })
     }
-    
+
     const handleSubmit = (e) => {
         e.preventDefault()
         const id = visitCustomer;
 
-        const checkDuplicateVisits = visits
-            .filter(visit => (visit.worker === worker && visit.date === date) && visit)
-            .every(item => {
-                if ((start >= item.start && start < item.end) || (start < item.start && end >= item.end)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            })
-
-        if (!checkDuplicateVisits) alert('Brak wolnych miejsc w tym terminie')
-
-        if (checkDuplicateVisits) {
-            db.collection('customers').doc(id).collection('visits').add({ ...newVisit }).then(() => {
-                close(false);
-                window.location.reload()
-            })
-        }
-
+        db.collection('customers').doc(id).collection('visits').doc(visitId).set({ ...newVisit }).then(() => {
+            close(false);
+            window.location.reload();
+        })
     }
 
     return (
         <>
-            <Title>Umów wizytę</Title>
+            <Title>Edytuj wizytę</Title>
             <Form onChange={handleChange} onSubmit={handleSubmit}>
                 <Label className="worker">
                     <span>Pracownik: </span>
@@ -179,7 +154,7 @@ export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, cu
                 <Label className="end">
                     <span>Koniec wizyty: </span>
                     <select defaultValue={end} name="end">
-                        {filtered && filtered.map(({end}) => (<option key={end} value={end}>{end}</option>))}
+                        {hours.filter(hour => hour.end > start && hour).map(({end}) => (<option key={end} value={end}>{end}</option>))}
                     </select>
                 </Label>
                 <input className="submit" type="submit" value="zapisz"/>
@@ -188,17 +163,16 @@ export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, cu
     )
 }
 
-AddVisit.propTypes = {
+EditVisit.propTypes = {
     workerName: PropTypes.string,
     dateVisit: PropTypes.object,
     timeStart: PropTypes.string,
     timeEnd: PropTypes.string,
 }
 
-AddVisit.defaultProps = {
+EditVisit.defaultProps = {
     dateVisit: moment(),
     workerName: workers[0].name,
     timeStart: hours[0].start,
     timeEnd: hours[0].end,
-    
 }

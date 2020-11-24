@@ -3,6 +3,19 @@ import styled from 'styled-components';
 import { hours } from '../../context/data';
 
 const HoursStyle = styled.div`
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    background: var(--white);
+
+    .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 99999;
+        background: var(--white);
+    }
 
     .hour {
         height: var(--calendarVisitHeight);

@@ -5,6 +5,7 @@ import { hours, workers } from '../context/data';
 import moment from 'moment';
 import MainContext from '../context/MainContext';
 import { db } from '../services/firebase';
+import Button from './Button';
 
 const Title = styled.h3`
 
@@ -16,13 +17,16 @@ const Form = styled.form`
     gap: 10px;
 
     .submit {
-        grid-column: 1 / -1;
+        grid-column: 1 / 2;
         border: none;
         background: var(--blue);
         color: white;
         border-radius: 6px;
         padding: 10px 0;
-        margin-top: 10px;
+    }
+
+    .delete {
+        grid-column: 2 / -1;
     }
 `
 
@@ -37,6 +41,10 @@ const Label = styled.label`
         grid-column: 1 / -1;
     }
 
+    &.end,
+    &.start {
+        margin-bottom: 10px;
+    }
 
     input,
     select {
@@ -109,6 +117,16 @@ export default function EditVisit({ workerName, dateVisit, timeStart, timeEnd, v
         })
     }
 
+    const deleteVisit = (e) => {
+        e.preventDefault();
+        const id = visitCustomer;
+
+        db.collection('customers').doc(id).collection('visits').doc(visitId).delete().then(() => {
+            close(false);
+            window.location.reload();
+        })
+    }
+
     return (
         <>
             <Title>Edytuj wizytę</Title>
@@ -157,7 +175,8 @@ export default function EditVisit({ workerName, dateVisit, timeStart, timeEnd, v
                         {hours.filter(hour => hour.end > start && hour).map(({end}) => (<option key={end} value={end}>{end}</option>))}
                     </select>
                 </Label>
-                <input className="submit" type="submit" value="zapisz"/>
+                <input className="submit" type="submit" value="zapisz" />
+                <Button secondary className="delete" onClick={deleteVisit}>usuń</Button>
             </Form>
         </>
     )

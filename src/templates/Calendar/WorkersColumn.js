@@ -5,11 +5,19 @@ import Field from './Field';
 
 const WorkersStyle = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: ${({ count }) => count && `repeat(${count}, 1fr)`};
 
     .column {
         position: relative;
-        min-width: 260px;
+        min-width: 300px;
+    }
+
+    .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 99999;
+        background: var(--white);
     }
 `
 
@@ -23,7 +31,7 @@ const WorkerColor = styled.div`
 
 export default function WorkersColumns({date}) {
     return (
-        <WorkersStyle>
+        <WorkersStyle count={workers.length}>
             {workers.map(({ id, name, color }) => {
                 return (
                     <div className="column" key={id}>

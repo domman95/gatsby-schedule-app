@@ -46,10 +46,9 @@ const ViewOptions = styled.div`
 
 const MainStyles = styled.main`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 280px));
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 280px));
     gap: 20px;
-    margin: 0 10px 20px;
+    margin: 0 10px 20px 10px;
     overflow-y: scroll;
     flex: 1;
 `
@@ -68,7 +67,6 @@ export default function CustomersPage() {
 
         setAllCustomers(customers)
     }, [context])
-
 
     const toggleModal = () => setIsModal(!isModal)
 
@@ -93,7 +91,7 @@ export default function CustomersPage() {
                 )}
 
             </MainStyles>
-            <Modal open={isModal} close={toggleModal}><AddCustomer close={setIsModal}/></Modal>
+            <Modal open={isModal} setOpen={setIsModal} close={toggleModal}><AddCustomer close={setIsModal}/></Modal>
             </CustomersPageStyles>
     )
 }

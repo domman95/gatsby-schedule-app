@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 import cross from '../assets/icons/cross.svg';
 import { useSpring, animated } from 'react-spring';
@@ -30,29 +30,27 @@ const ModalStyles = styled.div`
     span {
         color: black;
     }
-
-    .cross {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: url(${cross}) no-repeat center/cover transparent;
-        border: none;
-        width: 15px;
-        height: 15px;
-    }
 `
 
-export default function Modal({ children, close, open }) {
+export default function Modal({ children, close, open, setOpen }) {
     
     const props = useSpring({
         opacity: open ? 1 : 0,
         transform: open ? 'translateY(0)' : 'translateY(-100%)'
     });
 
+    const modalRef = useRef();
+
+    const closeModal = (e) => {
+        if (modalRef.current === e.target) {
+            setOpen(false)
+        }
+    }
+
     return (
         <>
             { open && 
-                <Background>
+                <Background ref={modalRef} onClick={closeModal}>
                     <animated.div style={props}>
                         <ModalStyles>
                             <button onClick={close} className="cross"></button>

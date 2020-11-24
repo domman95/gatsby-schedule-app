@@ -32,8 +32,8 @@ const VisitStyles = styled.div`
 
     .leftSide {
         margin-left: 8px;
-        height: ${({ visitLength }) => visitLength > 1 && '100%'};
-        padding: ${({visitLength}) => visitLength > 1 ? '10px' : '0 10px'};
+        height: ${({ visitLength }) => visitLength > 2 && '100%'};
+        padding: ${({visitLength}) => visitLength > 2 ? '10px' : '0 10px'};
 
         .name {
             font-size: 16px;

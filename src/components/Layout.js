@@ -11,14 +11,14 @@ const LayoutStyles = styled.div`
     padding-left: ${({open}) => open ? '60px' : '0'};
     background: #E1E1E1;
     height: 100vh;
-    overflow-y: hidden;
+    max-width: 100vw;
     transition: .3s linear;
 `
 
 const ContainerStyles = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 1;
+    width: 100%;
 `
 
 export default function Layout({ children }) {

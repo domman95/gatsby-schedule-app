@@ -59,7 +59,7 @@ export default function Field({timeStart, timeEnd, workerName, color, date}) {
                 }
                 })}
         </FieldStyles>
-            <Modal open={isModal} close={toggleModal}><AddVisit workerName={workerName} dateVisit={date} timeStart={timeStart} timeEnd={timeEnd} close={setIsModal}/></Modal>
+            <Modal open={isModal} setOpen={setIsModal} close={toggleModal}><AddVisit workerName={workerName} dateVisit={date} timeStart={timeStart} timeEnd={timeEnd} close={setIsModal}/></Modal>
         </>
     )
 }

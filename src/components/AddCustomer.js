@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { hours, workers } from '../context/data';
+import { getData } from '../context/MainContext';
 import { db } from '../services/firebase';
 import Select from './Select';
 
@@ -61,8 +62,8 @@ export default function AddCustomer({close}) {
     const handleSubmit = (e) => {
         e.preventDefault()
         db.collection('customers').add(newCustomer).then(() => {
+            getData()
             close(false);
-            window.location.reload()
         })
     }
 

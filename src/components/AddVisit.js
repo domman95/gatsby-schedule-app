@@ -85,7 +85,7 @@ export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, cu
     })
 
     const [visitCustomer, setVisitCustomer] = useState(customerId);
-    const [filtered, setFiltered] = useState();
+    const [filtered, setFiltered] = useState(hours);
         
     const { worker, date, start, end, services } = newVisit;
     
@@ -130,6 +130,7 @@ export default function AddVisit({ workerName, dateVisit, timeStart, timeEnd, cu
                 close(false);
                 window.location.reload()
             })
+            console.log(newVisit)
         }
 
     }

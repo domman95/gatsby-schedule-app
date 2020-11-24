@@ -20,7 +20,7 @@ const NavStyles = styled.nav`
     height: 100%;
     background: var(--blue);
     padding: 20px 10px;
-    z-index: 9999;
+    z-index: 9999999999;
     transform: ${({open}) => open ? 'translateX(0)' : 'translateX(-100%)'};
     transition: transform .3s linear;
 

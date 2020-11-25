@@ -10,7 +10,7 @@ const LayoutStyles = styled.div`
     max-height: 100vh;
     padding-left: ${({open}) => open ? '60px' : '0'};
     background: #E1E1E1;
-    height: 100vh;
+    height: 100%;
     max-width: 100vw;
     transition: .3s linear;
 `

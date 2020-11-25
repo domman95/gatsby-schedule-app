@@ -9,7 +9,7 @@ import { workers } from '../context/data';
 const Background = styled.div`
     position: fixed;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     top: 0;
     left: 0;
     z-index: 999999;
@@ -20,8 +20,6 @@ const Background = styled.div`
 `
 
 const CustomerPageStyles = styled(animated.div)`
-    /* display: flex; */
-    /* flex-direction: column; */
     position: relative;
     border-radius: 6px;
     color: black;
@@ -37,6 +35,10 @@ const CustomerPageStyles = styled(animated.div)`
         padding: 10px 0;
 
         .image {
+            grid-column: 1 / 4;
+            grid-row: 1 / 3;
+            margin: 0 10px;
+
             @media (max-width: 400px) {
                 width: 60px;
                 height: 60px;
@@ -45,11 +47,7 @@ const CustomerPageStyles = styled(animated.div)`
             @media (max-width: 500px) {
                 width: 90px;
                 height: 90px;
-            }
-
-            grid-column: 1 / 4;
-            grid-row: 1 / 3;
-            margin: 0 10px;
+            }            
         }
 
         .fullName,
@@ -60,20 +58,21 @@ const CustomerPageStyles = styled(animated.div)`
 
         .fullName {
             grid-row: 1 / 2;
-            align-self: center;
+            align-self: flex-end;
         }
 
         .phoneNumber {
             grid-row: 2 / 3;
+            align-self: center;
         }
 
         .counter {
             display: flex;
             justify-content: space-around;
-            margin: 10px 5px;
+            margin: 10px 5px 15px;
             gap: 5px;
             grid-column: 1 / -1;
-            grid-row: 3 / 5;
+            grid-row: 4 / 6;
             border-radius: 6px;
             max-height: 60px;
             background: #f3f3f3;
@@ -103,6 +102,7 @@ const CustomerPageStyles = styled(animated.div)`
             display: flex;
             align-items: center;
             grid-column: 1 / -1;
+            grid-row: 6 / -1;
             gap: 10px;
 
             button {
@@ -121,14 +121,6 @@ const CustomerPageStyles = styled(animated.div)`
             .fullName,
             .phoneNumber {
                 font-size: 18px;
-            }
-
-            .fullName {
-                align-self: flex-end;
-            }
-
-            .phoneNumber {
-                align-self: center;
             }
 
             .counter {
@@ -151,11 +143,36 @@ const CustomerPageStyles = styled(animated.div)`
                 grid-row: 5 / -1;
             }
         }
+
+        @media (min-width: 768px) {
+            grid-template-rows: repeat(4, 35px);
+
+            .fullName,
+            .phoneNumber {
+                grid-column: 4 / 7;
+            }
+
+            .counter {
+                grid-column: 6 / -1;
+                grid-row: 1 / 3;
+                margin-right: 30px;
+            }
+
+            .buttons {
+                grid-row: 3 / 5;
+                grid-column: 4 / -1;
+                padding-right: 30px;
+            }
+        }
     }
 
     .listOfVisits {
         margin: 10px 0;
         background: white;
+
+        @media (min-width: 768px) {
+            margin: 10px 30px;
+        }
 
         .kindOfVisits {
             display: flex;
@@ -165,7 +182,6 @@ const CustomerPageStyles = styled(animated.div)`
                 flex: 1;
                 background: white;
                 border: none;
-                border-bottom: 1px solid var(--blue);
                 color: var(--darkgrey);
             }
 
@@ -177,17 +193,19 @@ const CustomerPageStyles = styled(animated.div)`
                 padding: 5px 0;
                 color: var(--blue);
                 font-weight: var(--bold);
-                background: transparent;
+                background: white;
             }
         }
 
         .listUl {
             border: 1px solid var(--blue);
-            border-top: none;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
+            border-radius: 6px;
             overflow: scroll;
-            max-height: 300px;
+            height: 300px;
+
+            @media (min-width: 768px) {
+                height: 370px;
+            }
 
             .noVisits {
                 text-align: center;
@@ -235,7 +253,10 @@ const IndividualVisit = styled.li`
 `
 
 export default function CustomerDetails({ open, data, setOpen }) {
-    const [state, setState] = useState([])
+    const [allVisits, setAllVisits] = useState([])
+    const [visitType, setVisitType] = useState('pending');
+    const [visitPending, setVisitPending] = useState([]);
+    const [visitDone, setVisitDone] = useState([]);
 
     const {customerId, firstName, lastName, sex, phoneNumber } = data
 
@@ -247,13 +268,18 @@ export default function CustomerDetails({ open, data, setOpen }) {
         }
     }
 
+    const getVisitType = (e) => {
+        console.log(e.target.name)
+        setVisitType(e.target.name)
+    }
+
     const context = React.useContext(MainContext);
     const { visits, date } = context;
 
     useEffect(() => {
         const ownVisits = visits.filter(item => item.customerId === customerId)
-        setState(ownVisits)
-    }, [context])
+        setAllVisits(ownVisits)
+    }, [context, date, visitType])
 
     const springRef = useRef()
 
@@ -291,15 +317,15 @@ export default function CustomerDetails({ open, data, setOpen }) {
                         <div className="counter">
                             <div className="sql pending">
                                 <p>zaplanowane</p>
-                                <span>{state.filter(item => item.date >= date.format('YYYY-MM-DD')).length}</span>
+                                <span>{visitPending.length}</span>
                             </div>
                             <div className="sql done">
                                 <p>zrealizowane</p>
-                                <span>{state.filter(item => item.date < date.format('YYYY-MM-DD')).length}</span>
+                                <span>{visitDone.length}</span>
                             </div>
                             <div className="sql all">
                                 <p>wszystkie</p>
-                                <span>{state.length}</span>
+                                <span>{allVisits.length}</span>
                             </div>
                         </div>
                         <div className="buttons">
@@ -309,11 +335,11 @@ export default function CustomerDetails({ open, data, setOpen }) {
                     </div>    
                     <div className="listOfVisits">
                         <div className="kindOfVisits">
-                            <button className="setPending">zaplanowane</button>
-                            <button className="setDone active">zrealizowane</button>
+                            <button className="setPending" name="pending" onClick={(e) => getVisitType(e)}>zaplanowane</button>
+                            <button className="setDone active" name="done" onClick={(e) => getVisitType(e)}>zrealizowane</button>
                         </div>
                         <ul className="listUl">
-                            {state.length > 0 ? state.map(item => {
+                            {allVisits.length > 0 ? allVisits.map(item => {
                                 const worker = workers.filter(({ name }) => name === item.worker)
                                 const color = worker[0].color
                                 return (
